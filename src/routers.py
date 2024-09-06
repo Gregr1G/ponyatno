@@ -1,20 +1,25 @@
 from fastapi import APIRouter
 from src.Info.endpoints import router_info
 from src.Tape.endpoints import router as router_tape
-from src.Auth.schemas import UserRead, UserCreate, UserUpdate
+from src.Auth.schemas import UserRead, UserCreate, UserUpdate, InviteCode
 from src.Auth.users import auth_backend
-from src.Auth.manager import fastapi_users
+from src.Auth.manager import fastapi_users, get_user_manager
+from src.Auth.register import get_register_router
+from src.Auth.invates.endpoints import invite_router
+
+
 def get_apps_router():
     router = APIRouter()
 
     router.include_router(router_info)
     router.include_router(router_tape)
+    router.include_router(invite_router)
     router.include_router(
         fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
     )
 
     router.include_router(
-        fastapi_users.get_register_router(UserRead, UserCreate),
+        get_register_router(get_user_manager, UserRead, UserCreate, InviteCode),
         prefix="/auth",
         tags=["auth"],
     )
