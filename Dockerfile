@@ -1,15 +1,11 @@
-FROM python:3.12
-
-RUN mkdir /app
+FROM python:latest
 
 WORKDIR /app
 
-COPY req.txt .
+COPY req.txt req.txt
 
-RUN pip install -r req.txt
+RUN pip install --no-cache-dir --upgrade -r req.txt
 
 COPY . .
 
-WORKDIR src
-
-CMD gunicorn main:app --bind=0.0.0.0:8080
+CMD gunicorn main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8080

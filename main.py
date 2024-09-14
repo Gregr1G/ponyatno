@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import uvicorn
+from starlette.middleware.cors import CORSMiddleware
 
 from src.routers import *
 from src.Auth.invates.models import *
@@ -8,13 +9,23 @@ from database import create_db_and_tables, User
 
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # await create_db_and_tables()
-    yield
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+]
 
 
-app = FastAPI(lifespan=lifespan)
+
+app = FastAPI()
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
 app.include_router(get_apps_router())
 
 
