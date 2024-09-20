@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from src.routers import *
 from src.Auth.invates.models import *
+from src.Post.models import *
 from database import create_db_and_tables, User
 
 

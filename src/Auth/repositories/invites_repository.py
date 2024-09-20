@@ -35,7 +35,7 @@ class InviteRepository:
             invite = await session.execute(select(Invite).where(Invite.code == invite_code))
             result = invite.scalars().first()
 
-            if not result.admin_status:
+            if (not result.admin_status) and (result.user_id == None):
                 result.user_id = user_id
 
             await session.commit()

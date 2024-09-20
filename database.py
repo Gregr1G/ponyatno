@@ -22,7 +22,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     register_at: Mapped[str | None] # дата и время регистрации
     profile_visibility: Mapped[str | None] # видимость профиля (public, friends, private)
     message_privacy: Mapped[str | None] # кто может отправлять сообщения (everyone, friends, no_one)
-    post_visibility: Mapped[str | None] # видимость постов (public, friends, private)
+
 
 
 

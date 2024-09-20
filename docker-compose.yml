@@ -1,0 +1,11 @@
+version: latest
+
+services:
+  db:
+    image: postgres:15
+    container_name: database
+    command: -p 5454
+    expose:
+      - 5454
+    env_file:
+      - .env

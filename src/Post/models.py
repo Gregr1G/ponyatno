@@ -1,20 +1,18 @@
-from datetime import datetime
-from typing import List
-
-from sqlalchemy import ForeignKey, types, DateTime
-
-from src.Post.schemas import PostPrivacy
-from pytz import timezone
+from uuid import uuid4, UUID
+from sqlalchemy import ForeignKey, types, DateTime, func
+import datetime
 from database import Base
 from sqlalchemy.orm import Mapped, mapped_column
 
+from src.Post.schemas import PostsPrivacy
 
-class Invite(Base):
+
+class Post(Base):
     __tablename__ = "post"
 
-    id: Mapped[types.Uuid] = mapped_column(primary_key=True)
-    wall_owner: Mapped[types.Uuid] = mapped_column(types.Uuid, ForeignKey("user.id"))
+    id: Mapped[UUID] = mapped_column(primary_key=True, server_default=func.gen_random_uuid())
+    post_owner: Mapped[types.Uuid] = mapped_column(types.Uuid, ForeignKey("user.id"))
     content: Mapped[str]
-    media_files: Mapped[List[str] | None]
-    created_at: Mapped[DateTime] = mapped_column(default=datetime.now(timezone('UTC')))
-    privacy: Mapped[PostPrivacy] = mapped_column(server_default=f"{PostPrivacy.PUBLIC.value}")
+    media_files: Mapped[str]
+    created_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    privacy: Mapped[PostsPrivacy] = mapped_column(server_default=f"{PostsPrivacy.PUBLIC.value}")

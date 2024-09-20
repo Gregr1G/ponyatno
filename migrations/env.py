@@ -1,5 +1,7 @@
 from logging.config import fileConfig
-from src.Auth.invates.models import * # noqa
+from src.Auth.invates.models import Invite # noqa
+from src.Post.models import Post # noqa
+from database import Base, User
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
